@@ -11,14 +11,18 @@
 
     <title>Funkos Store</title>
 
-    <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
-    <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
+    <!-- Custom styles for this template-->
+    <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet">
+    <style>
+        .img-default{
+            width: 100%;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -30,7 +34,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/}">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fa fa-poo"></i>
                 </div>
@@ -65,11 +69,11 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Categorias:</h6>
-                        <a class="collapse-item" th:href="@{/{seccion}(seccion = serie)}">Serie</a>
-                        <a class="collapse-item" th:href="@{/{seccion}(seccion = disney)}">Disney</a>
-                        <a class="collapse-item" th:href="@{/{seccion}(seccion = pelicula)}">Pelicula</a>
-                        <a class="collapse-item" th:href="@{/{seccion}(seccion = superheroes)}">Super-Heroes</a>
-                        <a class="collapse-item" th:href="@{/{seccion}(seccion = otros)}">Otros</a>
+                        <a class="collapse-item" th:href="@{/funkos/{seccion}(seccion = serie)}">Serie</a>
+                        <a class="collapse-item" th:href="@{/funkos/{seccion}(seccion = disney)}">Disney</a>
+                        <a class="collapse-item" th:href="@{/funkos/{seccion}(seccion = peliculas)}">Pelicula</a>
+                        <a class="collapse-item" th:href="@{/funkos/{seccion}(seccion = superheroes)}">Super-Heroes</a>
+                        <a class="collapse-item" th:href="@{/funkos/{seccion}(seccion = otros)}">Otros</a>
                     </div>
                 </div>
             </li>
@@ -85,10 +89,10 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Administracion:</h6>
-                        <a class="collapse-item" href="form-post.html">Añadir Funko</a>
-                        <a class="collapse-item" href="form-post.html">Actualizar Funko</a>
-                        <a class="collapse-item" href="form-put-img.html">Actualizar Imagen</a>
-                        <a class="collapse-item" href="tables.html">Eliminar Funko</a>
+                        <a class="collapse-item" th:href="@{/funkos/create}">Añadir Funko</a>
+                        <a class="collapse-item" th:href="@{/funkos/update}">Actualizar Funko</a>
+                        <a class="collapse-item" th:href="@{/funkos/updateImg}">Actualizar Imagen</a>
+                        <a class="collapse-item" th:href="@{/funkos/delete}">Eliminar Funko</a>
                     </div>
                 </div>
             </li>
@@ -147,7 +151,7 @@
                         <div class="col-3" th:each="funko : ${funkos}">
                           <div class="card">
                                 <!-- Contenido de la primera tarjeta -->
-                                <img th:src="${funko.getImage()}" class="card-img-top" th:alt="${funko.getName()}">
+                                <img th:src="${funko.getImage()}" class="card-img-top img-default" th:alt="${funko.getName()}">
                                 <div class="card-body">
                                 <h5 class="card-title" th:text="${funko.getName()}">Funko Prueba</h5>
                                 <p class="card-text" th:text="'$'+${funko.getPrice()}">0.0</p>
@@ -204,21 +208,21 @@
         </div>
     </div>
     <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+    <script th:src="@{/js/sb-admin-2.min.js}"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script th:src="@{/vendor/chart.js/Chart.min.js}"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
+    <script th:src="@{/js/demo/chart-area-demo.js}"></script>
+    <script th:src="@{/js/demo/chart-pie-demo.js}"></script>
 
 </body>
 

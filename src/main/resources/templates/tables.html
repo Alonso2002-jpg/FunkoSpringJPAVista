@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -11,15 +11,18 @@
 
     <title>Funkos Store</title>
 
-    <!-- Custom fonts for this template-->
-    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
     <link
         href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
+    <link th:href="@{/css/sb-admin-2.min.css}" rel="stylesheet">
+    <style>
+        .img-default{
+            width: 100px;
+        }
+    </style>
 </head>
 
 <body id="page-top">
@@ -56,7 +59,6 @@
                 Interface
             </div>
 
-            <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
@@ -66,11 +68,11 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Categorias:</h6>
-                        <a class="collapse-item" href="blank.html">Serie</a>
-                        <a class="collapse-item" href="blank.html">Disney</a>
-                        <a class="collapse-item" href="blank.html">Pelicula</a>
-                        <a class="collapse-item" href="blank.html">Super-Heroes</a>
-                        <a class="collapse-item" href="blank.html">Otros</a>
+                        <a class="collapse-item" th:href="@{/funkos/{seccion}(seccion = serie)}">Serie</a>
+                        <a class="collapse-item" th:href="@{/funkos/{seccion}(seccion = disney)}">Disney</a>
+                        <a class="collapse-item" th:href="@{/funkos/{seccion}(seccion = peliculas)}">Pelicula</a>
+                        <a class="collapse-item" th:href="@{/funkos/{seccion}(seccion = superheroes)}">Super-Heroes</a>
+                        <a class="collapse-item" th:href="@{/funkos/{seccion}(seccion = otros)}">Otros</a>
                     </div>
                 </div>
             </li>
@@ -86,10 +88,10 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Administracion:</h6>
-                        <a class="collapse-item" href="form-post.html">Añadir Funko</a>
-                        <a class="collapse-item" href="form-post.html">Actualizar Funko</a>
-                        <a class="collapse-item" href="form-put-img.html">Actualizar Imagen</a>
-                        <a class="collapse-item" href="tables.html">Eliminar Funko</a>
+                        <a class="collapse-item" th:href="@{/funkos/create}">Añadir Funko</a>
+                        <a class="collapse-item" th:href="@{/funkos/update}">Actualizar Funko</a>
+                        <a class="collapse-item" th:href="@{/funkos/updateImg}">Actualizar Imagen</a>
+                        <a class="collapse-item" th:href="@{/funkos/delete}">Eliminar Funko</a>
                     </div>
                 </div>
             </li>
@@ -162,17 +164,19 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>Funko Prueba</td>
-                                            <td>0.0</td>
-                                            <td>0</td>
-                                            <td>Cate Prueba</td>
-                                            <td><a href="#" class="btn btn-danger btn-icon-split">
-                                                <span class="icon text-white-50">
+                                        <tr th:each="funko : ${funkos}">
+                                            <td th:text="${funko.name}" class="text-xl-center">Funko Prueba</td>
+                                            <td th:text="'$'+${funko.price}" class="text-success">0.0</td>
+                                            <td th:text="${funko.quantity}">0</td>
+                                            <td th:text="${funko.category.nameCategory}">Cate Prueba</td>
+                                            <td><img th:src="${funko.image}" alt="" class="img-default"></td>
+                                            <td><a th:href="@{/funkos/delete/{id}(id=${funko.id})}" class="btn btn-danger btn-circle btn-lg">
                                                     <i class="fas fa-trash"></i>
-                                                </span>
-                                                <span class="text">Eliminar</span>
-                                            </a></td>
+                                                </a>
+                                                <a th:href="@{/funkos/update/{id}(id=${funko.id})}" class="btn btn-info btn-circle btn-lg">
+                                                    <i class="fas fa-info-circle"></i>
+                                                </a>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -228,21 +232,21 @@
     </div>
 
     <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+    <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 
     <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
 
     <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+    <script th:src="@{/js/sb-admin-2.min.js}"></script>
 
     <!-- Page level plugins -->
-    <script src="vendor/chart.js/Chart.min.js"></script>
+    <script th:src="@{/vendor/chart.js/Chart.min.js}"></script>
 
     <!-- Page level custom scripts -->
-    <script src="js/demo/chart-area-demo.js"></script>
-    <script src="js/demo/chart-pie-demo.js"></script>
+    <script th:src="@{/js/demo/chart-area-demo.js}"></script>
+    <script th:src="@{/js/demo/chart-pie-demo.js}"></script>
 
 </body>
 
