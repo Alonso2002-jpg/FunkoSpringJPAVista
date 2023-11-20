@@ -26,7 +26,7 @@ import java.util.Optional;
 
 @Slf4j
 @RestController
-@RequestMapping("funkos")
+@RequestMapping("v1/funkos")
 public class FunkoRestController {
         private final FunkoService funkoService;
         private final FunkosMapper funkosMapper;

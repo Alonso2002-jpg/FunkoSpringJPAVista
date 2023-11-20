@@ -21,7 +21,7 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping("/pedidos")
+@RequestMapping("v1//pedidos")
 public class PedidoRestController {
     private final PedidoService pedidoService;
 
