@@ -105,7 +105,7 @@ public class HomeController {
     }
 
     @PostMapping("/funkos/updateImg/{id}")
-    public String updatePathImgFunko(Model model,@PathVariable Long id,@RequestParam("file") MultipartFile file){
+    public String updatePathImgFunko(@PathVariable Long id,@RequestParam("file") MultipartFile file){
         funkoService.updateImage(id, file);
         return "redirect:/funkos/gestion";
     }
