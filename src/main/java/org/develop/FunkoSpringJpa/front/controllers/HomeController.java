@@ -1,5 +1,6 @@
 package org.develop.FunkoSpringJpa.front.controllers;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.develop.FunkoSpringJpa.rest.categorias.commons.model.Categoria;
 import org.develop.FunkoSpringJpa.rest.categorias.repositories.CategoriaRepository;
@@ -16,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,17 +36,16 @@ public class HomeController {
         this.funkoService = funkoService;
         this.categoriaRepository = categoriaRepository;
     }
-    @GetMapping("/")
+    @GetMapping(path = {"/","/funkos"})
     public String listFunkos(Model model,
-                        @RequestParam(value = "name") Optional<String> name,
-                        @RequestParam(value = "quantity") Optional<Integer> quantity,
-                        @RequestParam(value = "price") Optional<Double> price,
-                        @RequestParam(value = "category") Optional<String> category,
+                        @RequestParam(value = "name", required = false) Optional<String> name,
+                        @RequestParam(value = "quantity", required = false) Optional<Integer> quantity,
+                        @RequestParam(value = "price", required = false) Optional<Double> price,
+                        @RequestParam(value = "category", required = false) Optional<String> category,
                         @RequestParam(defaultValue = "0") int page,
                         @RequestParam(defaultValue = "4") int size,
                         @RequestParam(defaultValue = "id") String sortBy,
                         @RequestParam(defaultValue = "asc") String direction) {
-        log.info(name.orElse(""));
         Sort sort = direction.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
         Pageable pageable = PageRequest.of(page, size, sort);
         Page<Funko> funkosPage = funkoService.getAll(name, quantity,price, category, pageable);
@@ -61,8 +63,12 @@ public class HomeController {
     }
 
     @PostMapping("/funkos/create")
-    public String createFunko(@ModelAttribute("funko") FunkoCreateDto funko){
-        System.out.println(funko);
+    public String createFunko(Model model, @Valid @ModelAttribute("funko") FunkoCreateDto funko, BindingResult result){
+        if (result.hasErrors()){
+            List<Categoria> categorias = categoriaRepository.findAll();
+            model.addAttribute("categorias", categorias);
+            return "form-post";
+        }
         funkoService.save(funko);
         return "redirect:/";
     }
@@ -77,7 +83,14 @@ public class HomeController {
     }
 
     @PostMapping("/funkos/update/{id}")
-    public String updateFunko(@PathVariable Long id, @ModelAttribute("funko") FunkoUpdateDto funko){
+    public String updateFunko(@PathVariable Long id,Model model, @Valid @ModelAttribute("funko") FunkoUpdateDto funko, BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            List<Categoria> categorias = categoriaRepository.findAll();
+            Funko fk = funkoService.findById(id);
+            model.addAttribute("funko", fk);
+            model.addAttribute("categorias", categorias);
+            return "form-put";
+        }
         funkoService.update(id,funko);
         return "redirect:/funkos/gestion";
     }
@@ -92,7 +105,7 @@ public class HomeController {
     }
 
     @PostMapping("/funkos/updateImg/{id}")
-    public String updatePathImgFunko(@PathVariable Long id,@RequestParam("file") MultipartFile file){
+    public String updatePathImgFunko(Model model,@PathVariable Long id,@RequestParam("file") MultipartFile file){
         funkoService.updateImage(id, file);
         return "redirect:/funkos/gestion";
     }
