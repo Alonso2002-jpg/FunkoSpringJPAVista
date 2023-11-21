@@ -34,7 +34,7 @@
         <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" th:href="@{/}">
                 <div class="sidebar-brand-icon rotate-n-15">
                     <i class="fa fa-poo"></i>
                 </div>
@@ -46,7 +46,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" th:href="@{/}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Todos Nuestros Funkos</span></a>
             </li>
@@ -60,7 +60,7 @@
             </div>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                <a class="nav-link collapsed" th:href="@{/}" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fa fa-list"></i>
                     <span>Categorias</span>
@@ -89,9 +89,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Administracion:</h6>
                         <a class="collapse-item" th:href="@{/funkos/create}">Añadir Funko</a>
-                        <a class="collapse-item" th:href="@{/funkos/update}">Actualizar Funko</a>
-                        <a class="collapse-item" th:href="@{/funkos/updateImg}">Actualizar Imagen</a>
-                        <a class="collapse-item" th:href="@{/funkos/delete}">Eliminar Funko</a>
+                        <a class="collapse-item" th:href="@{/funkos/gestion}">Gestionar Funkos</a>
                     </div>
                 </div>
             </li>
@@ -160,11 +158,11 @@
                                             <th>Precio</th>
                                             <th>Cantidad</th>
                                             <th>Categoria</th>
-                                            <th>Eliminar</th>
+                                            <th>Gestionar</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr th:each="funko : ${funkos}">
+                                        <tr th:each="funko : ${funkosPage.content}">
                                             <td th:text="${funko.name}" class="text-xl-center">Funko Prueba</td>
                                             <td th:text="'$'+${funko.price}" class="text-success">0.0</td>
                                             <td th:text="${funko.quantity}">0</td>
@@ -176,12 +174,35 @@
                                                 <a th:href="@{/funkos/update/{id}(id=${funko.id})}" class="btn btn-info btn-circle btn-lg">
                                                     <i class="fas fa-info-circle"></i>
                                                 </a>
+                                                <a th:href="@{/funkos/updateImg/{id}(id=${funko.id})}" class="btn btn-primary btn-circle btn-lg">
+                                                        <i class="fa fa-image"></i>
+                                                </a>
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <li class="page-item" th:classappend="${funkosPage.first ? 'disabled' : ''}">
+                                <a class="page-link"
+                                   th:href="@{${funkosPage.first ? '#' : '/funkos/gestion'}(page=0, size=${funkosPage.size}, sort=${funkosPage.pageable.sort})}">&laquo;</a>
+                            </li>
+                            <li class="page-item" th:classappend="${funkosPage.first ? 'disabled' : ''}">
+                                <a class="page-link"
+                                   th:href="@{${funkosPage.first ? '#' : '/funkos/gestion'}(page=${funkosPage.number - 1}, size=${funkosPage.size}, sort=${funkosPage.pageable.sort})}">Anterior</a>
+                            </li>
+                            <li class="page-item" th:classappend="${funkosPage.last ? 'disabled' : ''}">
+                                <a class="page-link"
+                                   th:href="@{${funkosPage.last ? '#' : '/funkos/gestion'}(page=${funkosPage.number + 1}, size=${funkosPage.size}, sort=${funkosPage.pageable.sort})}">Siguiente</a>
+                            </li>
+                            <li class="page-item" th:classappend="${funkosPage.last ? 'disabled' : ''}">
+                                <a class="page-link"
+                                   th:href="@{${funkosPage.last ? '#' : '/funkos/gestion'}(page=${funkosPage.totalPages - 1}, size=${funkosPage.size}, sort=${funkosPage.pageable.sort})}">&raquo;</a>
+                            </li>
+                        </ul>
+                 </nav>
                     </div>
                 
                 </div>

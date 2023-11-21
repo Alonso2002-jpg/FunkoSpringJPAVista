@@ -43,7 +43,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" href="index.html">
+                <a class="nav-link" th:href="@{/}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Todos Nuestros Funkos</span></a>
             </li>
@@ -57,7 +57,7 @@
             </div>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                <a class="nav-link collapsed" th:href="@{/}" data-toggle="collapse" data-target="#collapseTwo"
                     aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fa fa-list"></i>
                     <span>Categorias</span>
@@ -86,9 +86,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Administracion:</h6>
                         <a class="collapse-item" th:href="@{/funkos/create}">Añadir Funko</a>
-                        <a class="collapse-item" th:href="@{/funkos/update}">Actualizar Funko</a>
-                        <a class="collapse-item" th:href="@{/funkos/updateImg}">Actualizar Imagen</a>
-                        <a class="collapse-item" th:href="@{/funkos/delete}">Eliminar Funko</a>
+                        <a class="collapse-item" th:href="@{/funkos/gestion}">Gestionar Funkos</a>
                     </div>
                 </div>
             </li>

@@ -85,9 +85,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Administracion:</h6>
                         <a class="collapse-item" th:href="@{/funkos/create}">Añadir Funko</a>
-                        <a class="collapse-item" th:href="@{/funkos/update}">Actualizar Funko</a>
-                        <a class="collapse-item" th:href="@{/funkos/updateImg}">Actualizar Imagen</a>
-                        <a class="collapse-item" th:href="@{/funkos/delete}">Eliminar Funko</a>
+                        <a class="collapse-item" th:href="@{/funkos/gestion}">Gestionar Funkos</a>
                     </div>
                 </div>
             </li>
@@ -123,7 +121,7 @@
                 </nav>
 
                 <div class="container my-2">
-                    <form class="row gy-2 gx-3 align-items-center" th:object="${funko}">
+                    <form class="row gy-2 gx-3 align-items-center" th:action="@{/funkos/update/{id}(id = ${funko.id})}" th:object="${funko}" method="post">
                         <div class="col-12 text-center bg-dark text-light">
                             <h2>Actualizar Funkos</h2>
                         </div>
@@ -141,25 +139,25 @@
                             </div>
                             <div class="input-group">
                                 <div class="input-group-text">Nombre</div>
-                                <input type="text" class="form-control" id="name" placeholder="Nombre del Funko" th:value="${funko.name}">
+                                <input type="text" class="form-control" id="name" placeholder="Nombre del Funko" th:value="${funko.name}" th:field="*{name}">
                             </div>
                         </div>
                         <div class="col-6 my-3">
                             <div class="input-group">
                                 <div class="input-group-text">Precio</div>
-                                <input type="number" class="form-control" id="price" placeholder="Precio Unitario" th:value="${funko.price}">
+                                <input type="number" class="form-control" step="any" id="price" placeholder="Precio Unitario" th:value="${funko.price}" th:field="*{price}">
                             </div>
                         </div>
                         <div class="col-6 my-3">
                             <div class="input-group">
                                 <div class="input-group-text">Cantidad</div>
-                                <input type="number" class="form-control" id="quantity" placeholder="Cantidad" th:value="${funko.quantity}">
+                                <input type="number" class="form-control" id="quantity" placeholder="Cantidad" th:value="${funko.quantity}" th:field="*{quantity}">
                             </div>
                         </div>
 
                         <div class="col-4">
                             <p class="font-monospace">Cantegoria</p>
-                            <select class="form-select w-100" size="4" aria-label="select example" id="categoria">
+                            <select class="form-select w-100" size="4" aria-label="select example" id="categoria" th:field="*{category}">
                                 <option th:each="cat : ${categorias}" th:text="${cat.nameCategory}" th:value="${cat.id}" th:selected="${cat.id} == ${funko.category.id}">Prueba</option>
                               </select>
                         </div>

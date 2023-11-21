@@ -69,18 +69,18 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Categorias:</h6>
-                        <a class="collapse-item" th:href="@{/funkos/{seccion}(seccion = serie)}">Serie</a>
-                        <a class="collapse-item" th:href="@{/funkos/{seccion}(seccion = disney)}">Disney</a>
-                        <a class="collapse-item" th:href="@{/funkos/{seccion}(seccion = peliculas)}">Pelicula</a>
-                        <a class="collapse-item" th:href="@{/funkos/{seccion}(seccion = superheroes)}">Super-Heroes</a>
-                        <a class="collapse-item" th:href="@{/funkos/{seccion}(seccion = otros)}">Otros</a>
+                        <a class="collapse-item" th:href="@{/(category=serie)}">Serie</a>
+                        <a class="collapse-item" th:href="@{/(category=disney)}">Disney</a>
+                        <a class="collapse-item" th:href="@{/(category=peliculas)}">Pelicula</a>
+                        <a class="collapse-item" th:href="@{/(category=superheroes)}">Super-Heroes</a>
+                        <a class="collapse-item" th:href="@{/(category=otros)}">Otros</a>
                     </div>
                 </div>
             </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                <a class="nav-link collapsed" th:href="@{/}" data-toggle="collapse" data-target="#collapseUtilities"
                     aria-expanded="true" aria-controls="collapseUtilities">
                     <i class="fa fa-book"></i>
                     <span>Administracion</span>
@@ -90,9 +90,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Administracion:</h6>
                         <a class="collapse-item" th:href="@{/funkos/create}">Añadir Funko</a>
-                        <a class="collapse-item" th:href="@{/funkos/update}">Actualizar Funko</a>
-                        <a class="collapse-item" th:href="@{/funkos/updateImg}">Actualizar Imagen</a>
-                        <a class="collapse-item" th:href="@{/funkos/delete}">Eliminar Funko</a>
+                        <a class="collapse-item" th:href="@{/funkos/gestion}">Gestionar Funkos</a>
                     </div>
                 </div>
             </li>
@@ -127,12 +125,15 @@
 
                     <!-- Topbar Search -->
                     <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+                        action="/"
+                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
+                     id="form-name"
+                    method="get">
                         <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Buscar por..."
-                                aria-label="Search" aria-describedby="basic-addon2">
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Buscar por nombre..."
+                                aria-label="Search" id="name" th:value="${name}">
                             <div class="input-group-append">
-                                <button class="btn btn-primary" type="button">
+                                <button class="btn btn-primary" type="submit">
                                     <i class="fas fa-search fa-sm"></i>
                                 </button>
                             </div>
@@ -148,7 +149,7 @@
                         <h1 class="h3 mb-0 text-gray-800">Funkos de Coleccion</h1>
                     </div>
                     <div class="row">
-                        <div class="col-3" th:each="funko : ${funkos}">
+                        <div class="col-3" th:each="funko : ${funkosPage.content}">
                           <div class="card">
                                 <!-- Contenido de la primera tarjeta -->
                                 <img th:src="${funko.getImage()}" class="card-img-top img-default" th:alt="${funko.getName()}">
@@ -160,6 +161,26 @@
                           </div>
                         </div>
                     </div>
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <li class="page-item" th:classappend="${funkosPage.first ? 'disabled' : ''}">
+                                <a class="page-link"
+                                   th:href="@{${funkosPage.first ? '#' : '/'}(page=0, size=${funkosPage.size}, sort=${funkosPage.pageable.sort})}">&laquo;</a>
+                            </li>
+                            <li class="page-item" th:classappend="${funkosPage.first ? 'disabled' : ''}">
+                                <a class="page-link"
+                                   th:href="@{${funkosPage.first ? '#' : '/'}(page=${funkosPage.number - 1}, size=${funkosPage.size}, sort=${funkosPage.pageable.sort})}">Anterior</a>
+                            </li>
+                            <li class="page-item" th:classappend="${funkosPage.last ? 'disabled' : ''}">
+                                <a class="page-link"
+                                   th:href="@{${funkosPage.last ? '#' : '/'}(page=${funkosPage.number + 1}, size=${funkosPage.size}, sort=${funkosPage.pageable.sort})}">Siguiente</a>
+                            </li>
+                            <li class="page-item" th:classappend="${funkosPage.last ? 'disabled' : ''}">
+                                <a class="page-link"
+                                   th:href="@{${funkosPage.last ? '#' : '/'}(page=${funkosPage.totalPages - 1}, size=${funkosPage.size}, sort=${funkosPage.pageable.sort})}">&raquo;</a>
+                            </li>
+                        </ul>
+                 </nav>
 
                 </div>
                 <!-- /.container-fluid -->
