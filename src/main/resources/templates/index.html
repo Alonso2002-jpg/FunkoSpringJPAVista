@@ -125,13 +125,13 @@
 
                     <!-- Topbar Search -->
                     <form
-                        action="/"
+                        action="/funkos"
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search"
                      id="form-name"
                     method="get">
                         <div class="input-group">
                             <input type="text" class="form-control bg-light border-0 small" placeholder="Buscar por nombre..."
-                                aria-label="Search" id="name" th:value="${name}">
+                                aria-label="name" id="name" name="name" th:value="${name}">
                             <div class="input-group-append">
                                 <button class="btn btn-primary" type="submit">
                                     <i class="fas fa-search fa-sm"></i>
@@ -139,7 +139,6 @@
                             </div>
                         </div>
                     </form>
-
                 </nav>
 
                 <div class="container-fluid">
