@@ -39,6 +39,10 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
     //Thymeleaf
     implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+    //Security
+    implementation("org.springframework.boot:spring-boot-starter-security")
+    // Dependencia para test
+    testImplementation("org.springframework.security:spring-security-test")
 }
 
 tasks.withType<Test> {

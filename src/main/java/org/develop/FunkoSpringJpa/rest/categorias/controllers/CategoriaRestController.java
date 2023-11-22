@@ -24,7 +24,7 @@ import java.util.Optional;
 
 @RestController
 @Slf4j
-@RequestMapping("v1/funkos/categorias")
+@RequestMapping("${api.version}/funkos/categorias")
 public class CategoriaRestController {
     private final CategoriaService categoriaService;
     private final CategoriaMapper categoriaMapper;
