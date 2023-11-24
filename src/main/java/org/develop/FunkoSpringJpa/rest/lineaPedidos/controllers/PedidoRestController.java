@@ -46,6 +46,18 @@ public class PedidoRestController {
         return ResponseEntity.ok(pedidoService.findById(id));
     }
 
+    @GetMapping("/user/{id}")
+    public ResponseEntity<PageResponse<Pedido>> getPedidosByUser(@PathVariable("id")Long id,
+                                                                 @RequestParam(defaultValue = "0") int page,
+                                                                 @RequestParam(defaultValue = "10") int size,
+                                                                 @RequestParam(defaultValue = "id") String sortBy,
+                                                                 @RequestParam(defaultValue = "asc") String direction) {
+    log.info("Obteniendo Pedido de usuario con Id: " + id);
+    Sort sort = direction.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+    Pageable pageable = PageRequest.of(page, size, sort);
+    return ResponseEntity.ok(PageResponse.of(pedidoService.findByIdUsuario(id, pageable), sortBy, direction));
+    }
+
     @PostMapping
     public ResponseEntity<Pedido> createPedido(@Valid @RequestBody Pedido pedido) {
         return ResponseEntity.status(HttpStatus.CREATED).body(pedidoService.save(pedido));

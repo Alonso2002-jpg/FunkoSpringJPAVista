@@ -47,6 +47,12 @@ public class PedidoServiceImpl implements PedidoService{
     }
 
     @Override
+    public Page<Pedido> findByIdUsuario(Long idUsuario, Pageable pageable) {
+        log.info(("Obteniendo pedidos de usuario con ID: " + idUsuario));
+        return pedidoRepository.findByIdUsuario(idUsuario, pageable);
+    }
+
+    @Override
     @CachePut(key = "#pedido.id")
     public Pedido save(Pedido pedido) {
         log.info("Guardando pedido {}", pedido);
@@ -64,13 +70,14 @@ public class PedidoServiceImpl implements PedidoService{
     public Pedido update(ObjectId id, Pedido pedido) {
         log.info("Actualizando pedido {}", pedido);
 
-        var pedidoUpdate = pedidoRepository.findById(id).orElseThrow(() -> new PedidoNotFoundException("id "+ id.toHexString()));
+        var pedidoupd = pedidoRepository.findById(id).orElseThrow(() -> new PedidoNotFoundException("id "+ id.toHexString()));
 
         returnStockPedidos(pedido);
 
         checkPedido(pedido);
 
         var pedUpd = reserveStockPedidos(pedido);
+        pedUpd.setId(pedidoupd.getId());
 
         pedUpd.setUpdatedAt(LocalDateTime.now());
 

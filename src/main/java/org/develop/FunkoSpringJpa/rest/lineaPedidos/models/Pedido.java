@@ -31,6 +31,8 @@ public class Pedido {
     private ObjectId id = new ObjectId();
     @NotNull(message = "El Cliente no puede ser Nulo")
     private Cliente cliente;
+    @NotNull(message = "El id del usuario no puede ser Nulo")
+    private Long idUsuario;
     @NotNull(message = "El pedido debe tener minimo una linea de pedido")
     private List<LineaPedido> lineasPedido;
     @Builder.Default
