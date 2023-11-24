@@ -1,4 +1,4 @@
-package org.develop.FunkoSpringJpa.rest.users.models;
+package org.develop.FunkoSpringJpa.rest.users.commons.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -18,7 +18,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
