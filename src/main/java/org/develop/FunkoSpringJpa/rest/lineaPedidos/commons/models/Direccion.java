@@ -1,4 +1,4 @@
-package org.develop.FunkoSpringJpa.rest.lineaPedidos.models;
+package org.develop.FunkoSpringJpa.rest.lineaPedidos.commons.models;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

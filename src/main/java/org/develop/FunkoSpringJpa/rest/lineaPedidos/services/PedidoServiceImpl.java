@@ -1,17 +1,15 @@
 package org.develop.FunkoSpringJpa.rest.lineaPedidos.services;
 
-import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.develop.FunkoSpringJpa.rest.funko.exceptions.FunkoBadPrice;
 import org.develop.FunkoSpringJpa.rest.funko.exceptions.FunkoNotFound;
 import org.develop.FunkoSpringJpa.rest.funko.exceptions.FunkoNotStock;
 import org.develop.FunkoSpringJpa.rest.funko.repositories.FunkoRepository;
-import org.develop.FunkoSpringJpa.rest.funko.services.FunkoService;
 import org.develop.FunkoSpringJpa.rest.lineaPedidos.exceptions.PedidoEmptyException;
 import org.develop.FunkoSpringJpa.rest.lineaPedidos.exceptions.PedidoNotFoundException;
-import org.develop.FunkoSpringJpa.rest.lineaPedidos.models.LineaPedido;
-import org.develop.FunkoSpringJpa.rest.lineaPedidos.models.Pedido;
+import org.develop.FunkoSpringJpa.rest.lineaPedidos.commons.models.LineaPedido;
+import org.develop.FunkoSpringJpa.rest.lineaPedidos.commons.models.Pedido;
 import org.develop.FunkoSpringJpa.rest.lineaPedidos.repositories.PedidoRepository;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CachePut;
@@ -47,6 +45,12 @@ public class PedidoServiceImpl implements PedidoService{
     }
 
     @Override
+    public Page<Pedido> findByIdUsuario(Long idUsuario, Pageable pageable) {
+        log.info(("Obteniendo pedidos de usuario con ID: " + idUsuario));
+        return pedidoRepository.findByIdUsuario(idUsuario, pageable);
+    }
+
+    @Override
     @CachePut(key = "#pedido.id")
     public Pedido save(Pedido pedido) {
         log.info("Guardando pedido {}", pedido);
@@ -64,13 +68,14 @@ public class PedidoServiceImpl implements PedidoService{
     public Pedido update(ObjectId id, Pedido pedido) {
         log.info("Actualizando pedido {}", pedido);
 
-        var pedidoUpdate = pedidoRepository.findById(id).orElseThrow(() -> new PedidoNotFoundException("id "+ id.toHexString()));
+        var pedidoupd = pedidoRepository.findById(id).orElseThrow(() -> new PedidoNotFoundException("id "+ id.toHexString()));
 
         returnStockPedidos(pedido);
 
         checkPedido(pedido);
 
         var pedUpd = reserveStockPedidos(pedido);
+        pedUpd.setId(pedidoupd.getId());
 
         pedUpd.setUpdatedAt(LocalDateTime.now());
 
