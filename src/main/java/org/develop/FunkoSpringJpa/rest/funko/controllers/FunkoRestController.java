@@ -14,6 +14,7 @@ import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -61,21 +62,25 @@ public class FunkoRestController {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<FunkoResponseDto> postFunkos(@Valid @RequestBody FunkoCreateDto funko) {
         return ResponseEntity.status(HttpStatus.CREATED).body(funkosMapper.toResponseDto(funkoService.save(funko)));
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<FunkoResponseDto> putFunko(@PathVariable long id, @Valid @RequestBody FunkoUpdateDto funko) {
         return ResponseEntity.ok(funkosMapper.toResponseDto(funkoService.update(id,funko)));
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<String> deleteFunko(@PathVariable long id) {
         funkoService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping(value = "imagen/{id}",consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<FunkoResponseDto> putImagen(@PathVariable long id, @RequestPart("file") MultipartFile file){
         if (!file.isEmpty()){

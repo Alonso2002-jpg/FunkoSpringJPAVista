@@ -21,20 +21,21 @@ public class UserMapper {
                 .build();
     }
 
-    public User toUser(UserRequestDto request, Long id) {
+    public User toUser(User user,UserRequestDto request, Long id) {
         return User.builder()
                 .id(id)
-                .name(request.getName())
-                .username(request.getUsername())
-                .email(request.getEmail())
-                .password(request.getPassword())
-                .roles(request.getRoles())
-                .isActive(request.getIsActive())
+                .name(request.getName() == null ? user.getName() : request.getName())
+                .username(request.getUsername() == null ? user.getUsername() : request.getUsername())
+                .email(request.getEmail() == null ? user.getEmail() : request.getEmail())
+                .password(request.getPassword() == null ? user.getPassword() : request.getPassword())
+                .roles(request.getRoles() == null ? user.getRoles() : request.getRoles())
+                .isActive(request.getIsActive() == null ? user.getIsActive() : request.getIsActive())
                 .build();
     }
 
     public UserResponseDto toUserResponse(User user){
         return UserResponseDto.builder()
+                .id(user.getId())
                 .name(user.getName())
                 .username(user.getUsername())
                 .email(user.getEmail())
@@ -46,6 +47,7 @@ public class UserMapper {
 
     public UserInfoResponseDto toUserInfoResponse(User user, List<String> pedidos){
         return UserInfoResponseDto.builder()
+                .id(user.getId())
                 .name(user.getName())
                 .username(user.getUsername())
                 .email(user.getEmail())

@@ -1,17 +1,15 @@
 package org.develop.FunkoSpringJpa.rest.lineaPedidos.services;
 
-import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.develop.FunkoSpringJpa.rest.funko.exceptions.FunkoBadPrice;
 import org.develop.FunkoSpringJpa.rest.funko.exceptions.FunkoNotFound;
 import org.develop.FunkoSpringJpa.rest.funko.exceptions.FunkoNotStock;
 import org.develop.FunkoSpringJpa.rest.funko.repositories.FunkoRepository;
-import org.develop.FunkoSpringJpa.rest.funko.services.FunkoService;
 import org.develop.FunkoSpringJpa.rest.lineaPedidos.exceptions.PedidoEmptyException;
 import org.develop.FunkoSpringJpa.rest.lineaPedidos.exceptions.PedidoNotFoundException;
-import org.develop.FunkoSpringJpa.rest.lineaPedidos.models.LineaPedido;
-import org.develop.FunkoSpringJpa.rest.lineaPedidos.models.Pedido;
+import org.develop.FunkoSpringJpa.rest.lineaPedidos.commons.models.LineaPedido;
+import org.develop.FunkoSpringJpa.rest.lineaPedidos.commons.models.Pedido;
 import org.develop.FunkoSpringJpa.rest.lineaPedidos.repositories.PedidoRepository;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CachePut;

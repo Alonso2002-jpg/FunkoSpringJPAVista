@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,7 @@ import java.util.Optional;
 @RestController
 @Slf4j
 @RequestMapping("${api.version}/funkos/categorias")
+@PreAuthorize("hasRole('USER')")
 public class CategoriaRestController {
     private final CategoriaService categoriaService;
     private final CategoriaMapper categoriaMapper;
@@ -55,17 +57,20 @@ public class CategoriaRestController {
     }
 
     @PostMapping
-    public ResponseEntity<CategoriaResponseDto> postFunko(@Valid @RequestBody CategoriaCreateDto categoriaCreateDto) {
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<CategoriaResponseDto> postCategoria(@Valid @RequestBody CategoriaCreateDto categoriaCreateDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(categoriaMapper.toResponseDto(categoriaService.save(categoriaCreateDto)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CategoriaResponseDto> putFunko(@PathVariable long id, @Valid @RequestBody CategoriaUpdateDto categoriaUpdateDto) {
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<CategoriaResponseDto> putCategoria(@PathVariable long id, @Valid @RequestBody CategoriaUpdateDto categoriaUpdateDto) {
         return ResponseEntity.ok(categoriaMapper.toResponseDto(categoriaService.update(id,categoriaUpdateDto)));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteFunko(@PathVariable long id) {
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<String> deleteCategoria(@PathVariable long id) {
         categoriaService.deleteById(id);
         return ResponseEntity.noContent().build();
     }

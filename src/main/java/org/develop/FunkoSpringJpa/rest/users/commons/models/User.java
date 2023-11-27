@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "USER")
+@Table(name = "USERS")
 @EntityListeners(AuditingEntityListener.class)
 public class User implements UserDetails {
     @Id
@@ -46,9 +46,7 @@ public class User implements UserDetails {
     @Length(min = 8, message = "Password debe tener al menos 8 caracteres")
     @Column(nullable = false)
     private String password;
-    @NotNull(message = "Role cannot be empty")
-    @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
+
     @Builder.Default
     @CreationTimestamp
     @Column(nullable = false, updatable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
@@ -58,8 +56,12 @@ public class User implements UserDetails {
     @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt = LocalDateTime.now();
     @Builder.Default
+    @Column(name = "isActive")
     private Boolean isActive = true;
 
+    @ElementCollection(fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    private Set<Role> roles;
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()

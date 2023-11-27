@@ -1,11 +1,10 @@
 package org.develop.FunkoSpringJpa.rest.users.controllers;
 
 import jakarta.validation.Valid;
-import javafx.scene.control.Pagination;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 import org.develop.FunkoSpringJpa.pages.models.PageResponse;
-import org.develop.FunkoSpringJpa.rest.lineaPedidos.models.Pedido;
+import org.develop.FunkoSpringJpa.rest.lineaPedidos.commons.models.Pedido;
 import org.develop.FunkoSpringJpa.rest.lineaPedidos.services.PedidoService;
 import org.develop.FunkoSpringJpa.rest.users.commons.dto.UserInfoResponseDto;
 import org.develop.FunkoSpringJpa.rest.users.commons.dto.UserRequestDto;
@@ -89,7 +88,7 @@ public class UserRestController {
     }
 
     @GetMapping("/me/profile")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')")
     public ResponseEntity<UserInfoResponseDto> meProfile(@AuthenticationPrincipal User user) {
         log.info("Obteniendo perfil de usuario");
         return ResponseEntity.ok(userService.findById(user.getId()));

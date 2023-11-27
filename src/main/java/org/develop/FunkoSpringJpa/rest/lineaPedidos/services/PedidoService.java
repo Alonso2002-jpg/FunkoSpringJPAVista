@@ -1,7 +1,7 @@
 package org.develop.FunkoSpringJpa.rest.lineaPedidos.services;
 
 import org.bson.types.ObjectId;
-import org.develop.FunkoSpringJpa.rest.lineaPedidos.models.Pedido;
+import org.develop.FunkoSpringJpa.rest.lineaPedidos.commons.models.Pedido;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

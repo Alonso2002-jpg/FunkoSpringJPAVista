@@ -59,13 +59,12 @@ public class UserServiceImpl implements UserService {
     @Cacheable(key = "#id")
     public UserInfoResponseDto findById(Long id) {
         log.info("Obteniendo usuario con ID: {}", id);
-        var user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+        var user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(" id " + id));
         var pedidos = pedidoRepository.findPedidosByIdUsuario(user.getId()).stream().map(p -> p.getId().toHexString()).toList();
-        return userMapper.toUserInfoResponse(user,pedidos );
+        return userMapper.toUserInfoResponse(user,pedidos);
     }
 
     @Override
-    @CachePut(key = "#result.id")
     public UserResponseDto save(UserRequestDto userRequestDto) {
         log.info("Guardando usuario: " + userRequestDto);
 
@@ -80,7 +79,7 @@ public class UserServiceImpl implements UserService {
     @CachePut(key = "#result.id")
     public UserResponseDto update(Long id, UserRequestDto userRequestDto) {
         log.info("Actualizando usuario: " + userRequestDto);
-        findById(id);
+        var userfound = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("id " + id));
 
         userRepository.findByUsernameIgnoreCaseOrEmailIgnoreCase(userRequestDto.getUsername(), userRequestDto.getEmail())
                 .ifPresent(user -> {
@@ -88,14 +87,14 @@ public class UserServiceImpl implements UserService {
                         throw new UsernameOrEmailExistsException(user.getUsername() + "-" + user.getEmail());
                     }
                 });
-        return userMapper.toUserResponse(userRepository.save(userMapper.toUser(userRequestDto)));
+        return userMapper.toUserResponse(userRepository.save(userMapper.toUser(userfound,userRequestDto,id)));
     }
 
     @Override
     @CacheEvict(key = "#id")
     public void deleteById(Long id) {
         log.info("Eliminando usuario con ID: {}", id);
-        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
+        User user = userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("id " + id));
 
         if (pedidoRepository.existsByIdUsuario(id)){
             log.info("Borrado logido de usuario por id: " + id);
