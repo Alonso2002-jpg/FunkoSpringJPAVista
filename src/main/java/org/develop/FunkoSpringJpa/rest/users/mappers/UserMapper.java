@@ -4,18 +4,26 @@ import org.develop.FunkoSpringJpa.rest.users.commons.dto.UserInfoResponseDto;
 import org.develop.FunkoSpringJpa.rest.users.commons.dto.UserRequestDto;
 import org.develop.FunkoSpringJpa.rest.users.commons.dto.UserResponseDto;
 import org.develop.FunkoSpringJpa.rest.users.commons.models.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
 public class UserMapper {
+    private final PasswordEncoder passwordEncoder;
+
+    @Autowired
+    public UserMapper(PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
+    }
     public User toUser(UserRequestDto request) {
         return User.builder()
                 .name(request.getName())
                 .username(request.getUsername())
                 .email(request.getEmail())
-                .password(request.getPassword())
+                .password(passwordEncoder.encode(request.getPassword()))
                 .roles(request.getRoles())
                 .isActive(request.getIsActive())
                 .build();
@@ -27,7 +35,7 @@ public class UserMapper {
                 .name(request.getName() == null ? user.getName() : request.getName())
                 .username(request.getUsername() == null ? user.getUsername() : request.getUsername())
                 .email(request.getEmail() == null ? user.getEmail() : request.getEmail())
-                .password(request.getPassword() == null ? user.getPassword() : request.getPassword())
+                .password(request.getPassword() == null ? passwordEncoder.encode(user.getPassword()) : passwordEncoder.encode(request.getPassword()))
                 .roles(request.getRoles() == null ? user.getRoles() : request.getRoles())
                 .isActive(request.getIsActive() == null ? user.getIsActive() : request.getIsActive())
                 .build();
@@ -39,7 +47,7 @@ public class UserMapper {
                 .name(user.getName())
                 .username(user.getUsername())
                 .email(user.getEmail())
-                .password(user.getPassword())
+                .password(passwordEncoder.encode(user.getPassword()))
                 .roles(user.getRoles())
                 .isActive(user.getIsActive())
                 .build();

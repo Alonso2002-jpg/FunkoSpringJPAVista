@@ -1,5 +1,6 @@
 package org.develop.FunkoSpringJpa.rest.categorias.controllers;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.develop.FunkoSpringJpa.rest.categorias.commons.dto.CategoriaCreateDto;

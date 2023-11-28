@@ -67,7 +67,7 @@ public class UserRestController {
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<UserResponseDto> postUser(@RequestBody UserRequestDto user) {
+    public ResponseEntity<UserResponseDto> postUser(@RequestBody @Valid UserRequestDto user) {
         log.info("Creando usuario: " + user);
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.save(user));
     }
