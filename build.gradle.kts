@@ -46,6 +46,8 @@ dependencies {
     // Para manejar los JWT tokens
     // JWT (Json Web Token)
     implementation("com.auth0:java-jwt:4.4.0")
+    //OpenAp
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 }
 
 tasks.withType<Test> {
