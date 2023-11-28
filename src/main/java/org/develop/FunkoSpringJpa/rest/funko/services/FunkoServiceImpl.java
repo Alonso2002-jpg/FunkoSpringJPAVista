@@ -142,7 +142,7 @@ public class FunkoServiceImpl implements FunkoService{
         actualFunko.setImage(urlName);
         return funkoRepository.save(actualFunko);
     }
-    void onChange(Notificacion.Tipo tipo, Funko data) {
+    public void onChange(Notificacion.Tipo tipo, Funko data) {
     log.debug("Servicio de productos onChange con tipo: " + tipo + " y datos: " + data);
 
     if (webSocketService == null) {
