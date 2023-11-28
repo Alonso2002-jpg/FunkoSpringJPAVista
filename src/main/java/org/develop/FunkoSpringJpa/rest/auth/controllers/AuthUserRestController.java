@@ -1,6 +1,7 @@
 package org.develop.FunkoSpringJpa.rest.auth.controllers;
 
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.develop.FunkoSpringJpa.rest.auth.dto.JwtAuthResponseDto;
@@ -20,6 +21,7 @@ import java.util.Map;
 @RestController
 @Slf4j
 @RequestMapping("${api.version}/auth")
+@Tag(name = "Autorizacion", description = "Autorizacion de Logeo y Registro")
 public class AuthUserRestController {
     private final AuthenticationService authenticationService;
 
@@ -35,7 +37,7 @@ public class AuthUserRestController {
     }
 
     @PostMapping("/signin")
-    public ResponseEntity<JwtAuthResponseDto> signin(@RequestBody UserSignInRequest userSignInRequest) {
+    public ResponseEntity<JwtAuthResponseDto> signin(@Valid @RequestBody UserSignInRequest userSignInRequest) {
         log.info("Signin request: {}", userSignInRequest);
         return ResponseEntity.ok(authenticationService.signIn(userSignInRequest));
     }

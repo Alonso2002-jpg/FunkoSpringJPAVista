@@ -1,5 +1,6 @@
 package org.develop.FunkoSpringJpa.rest.auth.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,10 +12,12 @@ import org.hibernate.validator.constraints.Length;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Schema(name = "UserSignInRequest", description="Modelo para Logearse")
 public class UserSignInRequest {
     @NotBlank(message = "username cannot be blank")
+    @Schema(description = "Nombre de usuario", example = "admin")
     private String username;
     @NotBlank(message = "password cannot be blank")
-    @Length(min = 8, message = "password must be at least 8 characters long")
+    @Schema(description = "Contraseña", example = "Admin1")
     private String password;
 }
